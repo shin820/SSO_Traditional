@@ -32,6 +32,20 @@ namespace Infrastructure
             }
         }
 
+        public static string MeUrl
+        {
+            get
+            {
+                string url = ConfigurationManager.AppSettings["MeUrl"];
+                if (string.IsNullOrEmpty(url))
+                {
+                    throw new ConfigurationErrorsException("'MeUrl' have not been found in web.config.");
+                }
+
+                return url;
+            }
+        }
+
         public static string ClientId
         {
             get

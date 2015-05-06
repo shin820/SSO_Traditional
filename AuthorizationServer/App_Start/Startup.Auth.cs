@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AuthorizationServer.Identity;
+using Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -39,7 +40,7 @@ namespace AuthorizationServer
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication();
+            app.UseGoogleAuthentication();
 
             // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
             OAuthAuthorizationServerOptions oAuthOptions = new OAuthAuthorizationServerOptions
@@ -118,15 +119,33 @@ namespace AuthorizationServer
                 //{
                 //    await OnTestpathEndpoint(ctx);
                 //}
-                //else if (ctx.Request.Path == new PathString("/me"))
-                //{
-                //    await MeEndpoint(ctx);
-                //}
+                else if (ctx.Request.Path == new PathString("/me"))
+                {
+                    await MeEndpoint(ctx);
+                }
                 else
                 {
                     await next();
                 }
             });
+        }
+
+        private Task MeEndpoint(IOwinContext ctx)
+        {
+            if (ctx.Request.User == null ||
+                !ctx.Request.User.Identity.IsAuthenticated ||
+                ctx.Request.User.Identity.AuthenticationType != "Bearer")
+            {
+                ctx.Authentication.Challenge(new AuthenticationProperties(), "Bearer");
+            }
+            else
+            {
+                UserInfo user = new UserInfo { Id = 1, Name = ctx.Request.User.Identity.Name };
+                string userInfo = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+                ctx.Response.Write(userInfo);
+            }
+
+            return Task.FromResult<object>(null);
         }
 
         private static ClaimsIdentity CreateIdentity(string name, params string[] scopes)

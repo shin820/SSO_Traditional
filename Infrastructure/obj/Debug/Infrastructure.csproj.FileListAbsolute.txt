@@ -2,3 +2,17 @@ D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Infrastructure.dll
 D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Infrastructure.pdb
 D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.dll
 D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.pdb
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Newtonsoft.Json.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Net.Http.Formatting.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Newtonsoft.Json.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Net.Http.Formatting.xml
+D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.Security.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Owin.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Web.Http.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Web.Http.Owin.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.Security.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Web.Http.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\System.Web.Http.Owin.xml

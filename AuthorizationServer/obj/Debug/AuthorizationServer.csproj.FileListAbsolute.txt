@@ -107,3 +107,6 @@ D:\Code\SSO_Traditional\AuthorizationServer\bin\Microsoft.Owin.Security.Twitter.
 D:\Code\SSO_Traditional\AuthorizationServer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Code\SSO_Traditional\AuthorizationServer\obj\Debug\AuthorizationServer.dll
 D:\Code\SSO_Traditional\AuthorizationServer\obj\Debug\AuthorizationServer.pdb
+D:\Code\SSO_Traditional\AuthorizationServer\obj\Debug\AuthorizationServer.csprojResolveAssemblyReference.cache
+D:\Code\SSO_Traditional\AuthorizationServer\bin\Infrastructure.dll
+D:\Code\SSO_Traditional\AuthorizationServer\bin\Infrastructure.pdb
