@@ -46,6 +46,20 @@ namespace Infrastructure
             }
         }
 
+        public static string LogOffUrl
+        {
+            get
+            {
+                string url = ConfigurationManager.AppSettings["LogOffUrl"];
+                if (string.IsNullOrEmpty(url))
+                {
+                    throw new ConfigurationErrorsException("'LogOffUrl' have not been found in web.config.");
+                }
+
+                return url;
+            }
+        }
+
         public static string ClientId
         {
             get

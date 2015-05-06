@@ -328,11 +328,13 @@ namespace WebSite1.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+
+            string redirect_url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
+                      Url.Action("Index", "Home");
+            return Redirect(AppSettings.LogOffUrl + "?redirect_uri=" + redirect_url);
         }
 
         //

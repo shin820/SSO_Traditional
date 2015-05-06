@@ -187,6 +187,14 @@ namespace AuthorizationServer.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ExternalLogOff(string redirect_uri)
+        {
+            AuthenticationManager.SignOut();
+            return Redirect(redirect_uri);
+        }
+
         //
         // POST: /Account/ExternalLogin
         [HttpPost]

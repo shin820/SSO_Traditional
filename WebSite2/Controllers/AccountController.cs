@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,6 +9,7 @@ using AuthorizationServer.Identity;
 using Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json.Linq;
 using WebSite2.Models;
 
 namespace WebSite2.Controllers
@@ -45,10 +47,19 @@ namespace WebSite2.Controllers
                 new KeyValuePair<string, string>("redirect_uri", url),
             });
 
+            // get token
             HttpResponseMessage response = await client.PostAsync(AppSettings.TokenUrl, conent);
-            // the following code is just a fake logic.
-            // todo: we can get access_token from response, then try to get user information from user api.
-            await SignInAsync(new ApplicationUser() { Id = "1", UserName = "test" }, false);
+            response.EnsureSuccessStatusCode();
+            JObject tokenObj = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+            // get userinfo
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenObj.Value<string>("access_token"));
+            HttpResponseMessage userInfoResponse = await client.GetAsync(AppSettings.MeUrl);
+            userInfoResponse.EnsureSuccessStatusCode();
+            JObject userObj = JObject.Parse(await userInfoResponse.Content.ReadAsStringAsync());
+
+            // sign-in
+            await SignInAsync(new ApplicationUser { Id = userObj.Value<string>("Id"), UserName = userObj.Value<string>("Name") }, false);
 
             return RedirectToAction("Index", "Home");
         }
@@ -317,11 +328,12 @@ namespace WebSite2.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            string redirect_url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
+                                  Url.Action("Index", "Home");
+            return Redirect(AppSettings.LogOffUrl + "?redirect_uri=" + redirect_url);
         }
 
         //
