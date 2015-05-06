@@ -40,7 +40,7 @@ namespace AuthorizationServer
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication();
+            //app.UseDataApiAuthentication(AppSettings.ClientId, AppSettings.ClientSecret);
 
             // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
             OAuthAuthorizationServerOptions oAuthOptions = new OAuthAuthorizationServerOptions
@@ -113,7 +113,7 @@ namespace AuthorizationServer
             {
                 if (ctx.Request.Path == oAuthOptions.AuthorizeEndpointPath)
                 {
-                    ctx.Authentication.SignIn(new AuthenticationProperties(), CreateIdentity("epsilon"));
+                    ctx.Authentication.SignIn(new AuthenticationProperties(), CreateIdentity("test"));
                 }
                 //else if (ctx.Request.Path == new PathString("/testpath") && OnTestpathEndpoint != null)
                 //{

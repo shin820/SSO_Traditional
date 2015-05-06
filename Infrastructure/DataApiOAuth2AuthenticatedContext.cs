@@ -30,10 +30,10 @@ namespace Infrastructure
 
             Id = TryGetValue(user, "Id");
             Name = TryGetValue(user, "Name");
-            GivenName = TryGetValue(user, "Name", "givenName");
-            FamilyName = TryGetValue(user, "Name", "familyName");
-            Profile = TryGetValue(user, "url");
-            Email = TryGetFirstValue(user, "emails", "value"); // TODO:
+            //GivenName = TryGetValue(user, "Name", "givenName");
+            //FamilyName = TryGetValue(user, "Name", "familyName");
+            //Profile = TryGetValue(user, "url");
+            //Email = TryGetFirstValue(user, "emails", "value"); // TODO:
         }
 
         public JObject User { get; private set; }

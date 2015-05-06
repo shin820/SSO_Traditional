@@ -36,10 +36,11 @@ namespace AuthorizationServer.Controllers
 
         public ActionResult GrantCode(string client_id, string redirect_uri)
         {
-            redirect_uri += "?user=" + Thread.CurrentPrincipal.Identity.Name;
             string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + "/authorize?" +
                          string.Format("client_id={0}&response_type=code&redirect_uri={1}", client_id,
                              redirect_uri);
+
+            //Server.Transfer(url);
             return Redirect(url);
         }
     }

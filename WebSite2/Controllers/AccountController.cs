@@ -28,7 +28,7 @@ namespace WebSite2.Controllers
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         [AllowAnonymous]
-        public async Task<ActionResult> CallBack(string code, string user)
+        public async Task<ActionResult> CallBack(string code)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
@@ -48,7 +48,7 @@ namespace WebSite2.Controllers
             HttpResponseMessage response = await client.PostAsync(AppSettings.TokenUrl, conent);
             // the following code is just a fake logic.
             // todo: we can get access_token from response, then try to get user information from user api.
-            await SignInAsync(new ApplicationUser() { Id = "1", UserName = user }, false);
+            await SignInAsync(new ApplicationUser() { Id = "1", UserName = "test" }, false);
 
             return RedirectToAction("Index", "Home");
         }

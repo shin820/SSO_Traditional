@@ -77,7 +77,7 @@ namespace Infrastructure
                 // Request the token
                 HttpResponseMessage tokenResponse =
                     await _httpClient.PostAsync(TokenEndpoint, new FormUrlEncodedContent(body));
-                tokenResponse.EnsureSuccessStatusCode();
+                //tokenResponse.EnsureSuccessStatusCode();
                 string text = await tokenResponse.Content.ReadAsStringAsync();
 
                 // Deserializes the token response

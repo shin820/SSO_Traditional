@@ -210,7 +210,8 @@ namespace AuthorizationServer.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var user = await UserManager.FindAsync(loginInfo.Login);
+            //var user = await UserManager.FindAsync(loginInfo.Login);
+            var user = new ApplicationUser { UserName = loginInfo.DefaultUserName };
             if (user != null)
             {
                 await SignInAsync(user, isPersistent: false);
