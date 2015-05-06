@@ -1,0 +1,11 @@
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Infrastructure.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Infrastructure.pdb
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Microsoft.Owin.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Microsoft.Owin.Security.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Newtonsoft.Json.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Owin.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Microsoft.Owin.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Microsoft.Owin.Security.xml
+D:\Code\SSO_Traditional\Infrastructure\bin\Release\Newtonsoft.Json.xml
+D:\Code\SSO_Traditional\Infrastructure\obj\Release\Infrastructure.dll
+D:\Code\SSO_Traditional\Infrastructure\obj\Release\Infrastructure.pdb

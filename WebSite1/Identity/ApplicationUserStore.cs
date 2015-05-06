@@ -32,7 +32,7 @@ namespace AuthorizationServer.Identity
 
         public Task<ApplicationUser> FindByIdAsync(string userId)
         {
-            return Task.FromResult(new ApplicationUser() { Id = "1", UserName = "Test" });
+            return Task.FromResult(new ApplicationUser() { Id = userId, UserName = "cahsms" });
         }
 
         public Task<ApplicationUser> FindByNameAsync(string userName)

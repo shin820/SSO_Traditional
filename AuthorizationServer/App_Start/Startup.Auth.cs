@@ -113,7 +113,7 @@ namespace AuthorizationServer
             {
                 if (ctx.Request.Path == oAuthOptions.AuthorizeEndpointPath)
                 {
-                    ctx.Authentication.SignIn(new AuthenticationProperties(), CreateIdentity("test"));
+                    ctx.Authentication.SignIn(new AuthenticationProperties(), CreateIdentity("cahsms"));
                 }
                 //else if (ctx.Request.Path == new PathString("/testpath") && OnTestpathEndpoint != null)
                 //{
@@ -140,8 +140,16 @@ namespace AuthorizationServer
             }
             else
             {
-                UserInfo user = new UserInfo { Id = 1, Name = ctx.Request.User.Identity.Name };
+                var user = new UserInfo
+                {
+                    Id = "14906",
+                    Name = ctx.Request.User.Identity.Name,
+                    RetailterId = "26",
+                    Atype = "23",
+                    Customer = "CAH"
+                };
                 string userInfo = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+                ctx.Response.ContentType = "application/json";
                 ctx.Response.Write(userInfo);
             }
 

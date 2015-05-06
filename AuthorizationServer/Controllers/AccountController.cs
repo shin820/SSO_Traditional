@@ -46,9 +46,9 @@ namespace AuthorizationServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.UserName.ToLower() == "test" && model.Password == "123")
+                if (model.UserName.ToLower() == "cahsms" && model.Password == "cahsms")
                 {
-                    await SignInAsync(new ApplicationUser() { Id = "1", UserName = "Test" }, model.RememberMe);
+                    await SignInAsync(new ApplicationUser() { Id = "CAH", UserName = model.UserName }, model.RememberMe);
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
                         return Redirect(returnUrl);

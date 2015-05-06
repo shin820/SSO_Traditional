@@ -9,3 +9,4 @@ D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.Security.dll
 D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Owin.dll
 D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.xml
 D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Microsoft.Owin.Security.xml
+D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache
