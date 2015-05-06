@@ -1,49 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using AuthorizationServer.Identity;
+using Infrastructure;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using WebSite1.Models;
-using ExternalLoginConfirmationViewModel = WebSite1.Models.ExternalLoginConfirmationViewModel;
-using LoginViewModel = WebSite1.Models.LoginViewModel;
-using ManageUserViewModel = WebSite1.Models.ManageUserViewModel;
-using RegisterViewModel = WebSite1.Models.RegisterViewModel;
 
 namespace WebSite1.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-
-        public string RoleClaimType { get; set; }
-
-        public string UserNameClaimType { get; set; }
-
-        public string UserIdClaimType { get; set; }
-
-
         public AccountController()
             : this(new ApplicationUserManager())
         {
-            this.RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
-            this.UserIdClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-            this.UserNameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
         }
-
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
@@ -57,18 +37,18 @@ namespace WebSite1.Controllers
             string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
                          Url.Action("CallBack", "Account");
 
-
             HttpContent conent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("grant_type","authorization_code"), 
-                new KeyValuePair<string, string>("code",code), 
-                new KeyValuePair<string, string>("client_id","test1"), 
-                new KeyValuePair<string, string>("redirect_uri",url), 
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("code", code),
+                new KeyValuePair<string, string>("client_id", AppSettings.ClientId),
+                new KeyValuePair<string, string>("redirect_uri", url),
             });
-            HttpResponseMessage response = await client.PostAsync("http://authserver:30001/token", conent);
 
-            // fake logic, we should get user information from other api by using acess_token.
-            await SignInAsync(new ApplicationUser() { Id = "1", UserName = "Test" }, false);
+            HttpResponseMessage response = await client.PostAsync(AppSettings.TokenUrl, conent);
+            // the following code is just a fake logic.
+            // todo: we can get access_token from response, then try to get user information from user api.
+            await SignInAsync(new ApplicationUser() { Id = "1", UserName = user }, false);
 
             return RedirectToAction("Index", "Home");
         }
@@ -83,9 +63,8 @@ namespace WebSite1.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
-                         Url.Action("CallBack", "Account");
-            return Redirect("http://authserver:30001/Home/Authorize?redirect_uri=" + url + "&client_id=test1");
+            string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + Url.Action("CallBack", "Account");
+            return Redirect(AppSettings.AuthorizeUrl + "?redirect_uri=" + url + "&client_id=" + AppSettings.ClientId);
         }
 
         //

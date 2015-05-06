@@ -1,0 +1,4 @@
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Infrastructure.dll
+D:\Code\SSO_Traditional\Infrastructure\bin\Debug\Infrastructure.pdb
+D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.dll
+D:\Code\SSO_Traditional\Infrastructure\obj\Debug\Infrastructure.pdb
