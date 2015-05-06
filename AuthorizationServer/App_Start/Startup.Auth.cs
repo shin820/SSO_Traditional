@@ -1,6 +1,13 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AuthorizationServer.Identity;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 namespace AuthorizationServer
@@ -33,6 +40,108 @@ namespace AuthorizationServer
             //   appSecret: "");
 
             //app.UseGoogleAuthentication();
+
+            // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
+            OAuthAuthorizationServerOptions oAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                AuthorizeEndpointPath = new PathString("/authorize"),
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new OAuthAuthorizationServerProvider
+                {
+                    OnGrantAuthorizationCode = ctx =>
+                    {
+                        if (ctx.Ticket != null && ctx.Ticket.Identity != null && ctx.Ticket.Identity.IsAuthenticated)
+                        {
+                            ctx.Validated();
+                        }
+                        return Task.FromResult(0);
+                    },
+                    OnGrantRefreshToken = ctx =>
+                    {
+                        if (ctx.Ticket != null && ctx.Ticket.Identity != null && ctx.Ticket.Identity.IsAuthenticated)
+                        {
+                            ctx.Validated();
+                        }
+                        return Task.FromResult(0);
+                    },
+                    OnValidateClientRedirectUri = ctx =>
+                    {
+                        if (ctx.ClientId == "test1")
+                        {
+                            ctx.Validated();
+                            //ctx.Validated("http://website1:30002/Account/CallBack");
+                        }
+
+                        if (ctx.ClientId == "test2")
+                        {
+                            ctx.Validated();
+                            //ctx.Validated("http://website2:30003/Account/CallBack");
+                        }
+
+                        return Task.FromResult(0);
+                    },
+                    OnValidateClientAuthentication = ctx =>
+                    {
+                        string clientId;
+                        string clientSecret;
+                        if (ctx.TryGetBasicCredentials(out clientId, out clientSecret) ||
+                            ctx.TryGetFormCredentials(out clientId, out clientSecret))
+                        {
+                            if (clientId == "test1" || clientId == "test2")
+                            {
+                                ctx.Validated();
+                            }
+                        }
+                        return Task.FromResult(0);
+                    }
+                },
+                AuthorizationCodeProvider = new InMemorySingleUseReferenceProvider(),
+                AllowInsecureHttp = true
+            };
+
+            var bearerOptions = new OAuthBearerAuthenticationOptions
+            {
+                Provider = new OAuthBearerAuthenticationProvider(),
+                AccessTokenProvider = oAuthOptions.AccessTokenProvider,
+            };
+
+            app.UseOAuthBearerAuthentication(bearerOptions);
+            app.UseOAuthAuthorizationServer(oAuthOptions);
+
+            app.Use(async (ctx, next) =>
+            {
+                if (ctx.Request.Path == oAuthOptions.AuthorizeEndpointPath)
+                {
+                    ctx.Authentication.SignIn(new AuthenticationProperties(), CreateIdentity("epsilon"));
+                }
+                //else if (ctx.Request.Path == new PathString("/testpath") && OnTestpathEndpoint != null)
+                //{
+                //    await OnTestpathEndpoint(ctx);
+                //}
+                //else if (ctx.Request.Path == new PathString("/me"))
+                //{
+                //    await MeEndpoint(ctx);
+                //}
+                else
+                {
+                    await next();
+                }
+            });
+        }
+
+        private static ClaimsIdentity CreateIdentity(string name, params string[] scopes)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, name)
+            };
+            foreach (var scope in scopes)
+            {
+                claims.Add(new Claim("scope", scope));
+            }
+            return new ClaimsIdentity(
+                claims,
+                "Bearer");
         }
     }
 }

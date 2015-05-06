@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,11 +48,29 @@ namespace WebSite1.Controllers
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         [AllowAnonymous]
-        public async Task<ActionResult> CallBack(string returnUrl, string userName)
+        public async Task<ActionResult> CallBack(string code, string user)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            await SignInAsync(new ApplicationUser() { Id = "1", UserName = userName }, false);
-            return RedirectToLocal(returnUrl);
+
+            HttpClient client = new HttpClient();
+
+            string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
+                         Url.Action("CallBack", "Account");
+
+
+            HttpContent conent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("grant_type","authorization_code"), 
+                new KeyValuePair<string, string>("code",code), 
+                new KeyValuePair<string, string>("client_id","test1"), 
+                new KeyValuePair<string, string>("redirect_uri",url), 
+            });
+            HttpResponseMessage response = await client.PostAsync("http://authserver:30001/token", conent);
+
+            // fake logic, we should get user information from other api by using acess_token.
+            await SignInAsync(new ApplicationUser() { Id = "1", UserName = "Test" }, false);
+
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -65,9 +84,8 @@ namespace WebSite1.Controllers
             }
 
             string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority +
-                         Url.Action("CallBack", "Account", new { returnUrl });
-            return Redirect("http://authserver:30001/Home/Authorize?returnUrl=" + url);
-
+                         Url.Action("CallBack", "Account");
+            return Redirect("http://authserver:30001/Home/Authorize?redirect_uri=" + url + "&client_id=test1");
         }
 
         //
