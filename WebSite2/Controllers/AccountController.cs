@@ -30,6 +30,16 @@ namespace WebSite2.Controllers
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         [AllowAnonymous]
+        public async Task<ActionResult> SimpleCallBack(string id, string name, string retailterId, string atype, string customer)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            // sign-in
+            await SignInAsync(new ApplicationUser { Id = id.ToString(), UserName = name }, false);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
         public async Task<ActionResult> CallBack(string code)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
@@ -74,8 +84,8 @@ namespace WebSite2.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + Url.Action("CallBack", "Account");
-            return Redirect(AppSettings.AuthorizeUrl + "?redirect_uri=" + url + "&client_id=" + AppSettings.ClientId);
+            string url = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority + Url.Action("SimpleCallBack", "Account");
+            return Redirect(AppSettings.SimpleAuthorizeUrl + "?redirect_uri=" + url + "&client_id=" + AppSettings.ClientId);
         }
 
         //

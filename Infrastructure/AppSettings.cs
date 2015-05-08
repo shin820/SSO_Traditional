@@ -18,6 +18,20 @@ namespace Infrastructure
             }
         }
 
+        public static string SimpleAuthorizeUrl
+        {
+            get
+            {
+                string url = ConfigurationManager.AppSettings["SimpleAuthorizeUrl"];
+                if (string.IsNullOrEmpty(url))
+                {
+                    throw new ConfigurationErrorsException("'SimpleAuthorizeUrl' have not been found in web.config.");
+                }
+
+                return url;
+            }
+        }
+
         public static string TokenUrl
         {
             get

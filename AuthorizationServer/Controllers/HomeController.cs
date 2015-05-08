@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Infrastructure;
 
 namespace AuthorizationServer.Controllers
 {
@@ -32,6 +34,12 @@ namespace AuthorizationServer.Controllers
         public ActionResult Authorize(string redirect_uri, string client_id)
         {
             return GrantCode(client_id, redirect_uri);
+        }
+
+        public ActionResult SimpleAuthorize(string redirect_uri, string client_id)
+        {
+            string url = redirect_uri + "?Id=14906&Name=cahsms&RetailterId=26&Atype=23&Customer=CAH";
+            return Redirect(url);
         }
 
         public ActionResult GrantCode(string client_id, string redirect_uri)

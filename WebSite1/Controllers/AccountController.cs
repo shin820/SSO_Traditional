@@ -30,6 +30,16 @@ namespace WebSite1.Controllers
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         [AllowAnonymous]
+        public async Task<ActionResult> SimpleCallBack(UserInfo user)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            // sign-in
+            await SignInAsync(new ApplicationUser { Id = user.Id, UserName = user.Name }, false);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
         public async Task<ActionResult> CallBack(string code)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
