@@ -13,6 +13,11 @@ namespace Infrastructure
         public string Customer { get; set; }
         public string RetailterId { get; set; }
         public string Atype { get; set; }
+        public string PropertyId { get { return "63018"; } }
+        public string Phone { get { return "312-606-3876"; } }
+        public string Email { get { return "test@sms-assist.com"; } }
+        public string FirstName { get { return "FirstName"; } }
+        public string LastName { get { return "LastName"; } }
     }
 
     public class AccessToken

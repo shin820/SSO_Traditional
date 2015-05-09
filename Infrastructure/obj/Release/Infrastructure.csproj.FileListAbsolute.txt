@@ -9,3 +9,4 @@ D:\Code\SSO_Traditional\Infrastructure\bin\Release\Microsoft.Owin.Security.xml
 D:\Code\SSO_Traditional\Infrastructure\bin\Release\Newtonsoft.Json.xml
 D:\Code\SSO_Traditional\Infrastructure\obj\Release\Infrastructure.dll
 D:\Code\SSO_Traditional\Infrastructure\obj\Release\Infrastructure.pdb
+D:\Code\SSO_Traditional\Infrastructure\obj\Release\Infrastructure.csprojResolveAssemblyReference.cache

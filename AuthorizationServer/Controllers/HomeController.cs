@@ -38,7 +38,8 @@ namespace AuthorizationServer.Controllers
 
         public ActionResult SimpleAuthorize(string redirect_uri, string client_id)
         {
-            string url = redirect_uri + "?Id=14906&Name=cahsms&RetailterId=26&Atype=23&Customer=CAH";
+            string url = redirect_uri +
+                         "?Id=14906&Name=cahsms&PropertyId=63018&Phone=312-606-3876&Email=test@sms-assist.com&FirstName=FirstName&LastName=LastName";
             return Redirect(url);
         }
 
